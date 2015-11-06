@@ -21,7 +21,7 @@
         </button>
         <ul class="uib-dropdown-menu" role="menu" style="min-width:180px" aria-labelledby="simple-btn-keyboard-nav">
             <li ng-repeat="course in courseItems">
-          <a  ng-click="selectCourse(groups);">{{course.groupName}}</a>
+          <a  ng-click="selectCourse(groups);">{{course.groupName}}</a>HAI
         </li>
         </ul>
     </div>
