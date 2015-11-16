@@ -8,9 +8,12 @@ import org.springframework.util.CollectionUtils;
 
 import penchit.AdminHelper;
 import penchit.exception.ApplicationException;
-import penchit.model.CourseGroup;
-import penchit.repository.CourseGroupRepository;
-import penchit.vo.CourseGroupVO;
+import penchit.model.Course;
+import penchit.model.Group;
+import penchit.repository.CourseRepository;
+import penchit.repository.GroupRepository;
+import penchit.vo.CourseVO;
+import penchit.vo.GroupVO;
 
 
 
@@ -18,44 +21,57 @@ import penchit.vo.CourseGroupVO;
 public class AdminService {
 	
 	@Autowired
-	public CourseGroupRepository courseGroupRepository;
+	public GroupRepository groupRepository;
+	
+	@Autowired
+	public CourseRepository courseRepository;
 
-   public List<CourseGroupVO> findAllGroups() throws ApplicationException {
-	   List<CourseGroupVO> courseGroupVO = null;
+   public List<CourseVO> findAllCourses() throws ApplicationException {
+	   List<CourseVO> courseVOList = null;
 	try {
-		List<CourseGroup> courseGroup  = (List<CourseGroup>)courseGroupRepository.findAll();
-		courseGroupVO = AdminHelper.convertCourseGroupListDTOToVO(courseGroup);
+		List<Course> courseList  = (List<Course>)courseRepository.findAll();
+		courseVOList = AdminHelper.convertCourseListDTOToVO(courseList);
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+      return courseVOList;
+   }
+   public List<GroupVO> findAllGroups() throws ApplicationException {
+	   List<GroupVO> courseGroupVO = null;
+	try {
+		List<Group> courseGroup  = (List<Group>)groupRepository.findAll();
+		courseGroupVO = AdminHelper.convertGroupListDTOToVO(courseGroup);
 	} catch (Exception e) {
 		throw new ApplicationException();
 	}
       return courseGroupVO;
    }
-   public CourseGroupVO findGroupByName(String groupName) throws ApplicationException {
-	   CourseGroupVO courseGroupVO = null;
+   public GroupVO findGroupByName(String groupName) throws ApplicationException {
+	   GroupVO courseGroupVO = null;
 	try {
-		List<CourseGroup> courseGroup  = (List<CourseGroup>)courseGroupRepository.findByName(groupName);
+		List<Group> courseGroup  = (List<Group>)groupRepository.findByName(groupName);
 		if (!CollectionUtils.isEmpty(courseGroup)) {
-			courseGroupVO = AdminHelper.convertCourseGroupListDTOToVO(courseGroup).get(0);
+			courseGroupVO = AdminHelper.convertGroupListDTOToVO(courseGroup).get(0);
 		}
 	} catch (Exception e) {
 		throw new ApplicationException(e);
 	}
       return courseGroupVO;
    }
-   public CourseGroup saveGroup(CourseGroupVO courseGroupVO) throws ApplicationException {
-	   CourseGroup courseGroup = null;
+   public Group saveGroup(GroupVO courseGroupVO) throws ApplicationException {
+	   Group courseGroup = null;
 	try {
-		courseGroup = AdminHelper.convertCourseGroupVOToDTO(courseGroupVO);
-		courseGroup = courseGroupRepository.save(courseGroup);
+		courseGroup = AdminHelper.convertGroupVOToDTO(courseGroupVO);
+		courseGroup = groupRepository.save(courseGroup);
 	} catch (Exception e) {
 		throw new ApplicationException();
 	}
 	   return courseGroup;
 	}
-   public CourseGroup deleteGroup(Integer groupId) throws ApplicationException {
-	   CourseGroup courseGroup = null;
+   public Group deleteGroup(Integer groupId) throws ApplicationException {
+	   Group courseGroup = null;
 	try {
-		courseGroupRepository.delete(groupId);
+		groupRepository.delete(groupId);
 	} catch (Exception e) {
 		throw new ApplicationException();
 	}

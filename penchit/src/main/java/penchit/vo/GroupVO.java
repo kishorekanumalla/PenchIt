@@ -1,9 +1,11 @@
 package penchit.vo;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CourseGroupVO {
+public class GroupVO {
 
 	
 	private String groupName;
@@ -11,6 +13,8 @@ public class CourseGroupVO {
 	private String division;
 	
 	private Integer groupId;
+	
+	private List<CourseVO> courses;
 	
 	
 	public Integer getGroupId() {
@@ -30,5 +34,11 @@ public class CourseGroupVO {
 	}
 	public void setDivision(String division) {
 		this.division = division;
+	}
+	public List<CourseVO> getCourses() {
+		return courses;
+	}
+	public void setCourses(List<CourseVO> courses) {
+		this.courses = courses;
 	}
 }

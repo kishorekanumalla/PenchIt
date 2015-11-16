@@ -1,5 +1,7 @@
 package penchit.vo;
 
+import java.util.List;
+
 public class CourseVO {
 	
 	private String courseName;
@@ -9,7 +11,7 @@ public class CourseVO {
 	private Integer coursePrice;
 	private byte[] courseLogo;
 	private String version;
-	private CourseGroupVO groupVO;
+	private List<GroupVO> groupVOList;
 	
 	public String getCourseName() {
 		return courseName;
@@ -53,10 +55,11 @@ public class CourseVO {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	public CourseGroupVO getGroupVO() {
-		return groupVO;
+	public List<GroupVO> getGroupVOList() {
+		return groupVOList;
 	}
-	public void setGroupVO(CourseGroupVO groupVO) {
-		this.groupVO = groupVO;
+	public void setGroupVOList(List<GroupVO> groupVOList) {
+		this.groupVOList = groupVOList;
 	}
+	
 }

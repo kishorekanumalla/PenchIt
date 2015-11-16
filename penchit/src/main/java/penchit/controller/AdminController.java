@@ -2,7 +2,6 @@ package penchit.controller;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -15,9 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import penchit.Constants;
 import penchit.exception.ApplicationException;
-import penchit.model.CourseGroup;
+import penchit.model.Group;
 import penchit.service.AdminService;
-import penchit.vo.CourseGroupVO;
+import penchit.vo.CourseVO;
+import penchit.vo.GroupVO;
 import penchit.vo.ResponseObject;
 
 @Controller
@@ -26,7 +26,6 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	private Logger logger = Logger.getLogger(AdminController.class);
 	
 	@RequestMapping(value = "/admin/groups.html",method = RequestMethod.GET)
     public ModelAndView getGroupsPage() {
@@ -40,7 +39,7 @@ public class AdminController {
 	public @ResponseBody ResponseObject getAllGroups() throws ApplicationException { 
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<CourseGroupVO> groups = adminService.findAllGroups();
+			List<GroupVO> groups = adminService.findAllGroups();
 			if (!CollectionUtils.isEmpty(groups)) {
 				responseObject.setResult(groups);
 				responseObject.setStatus(Constants.SUCCESS);
@@ -55,16 +54,16 @@ public class AdminController {
 		return responseObject;  
 	}
 	@RequestMapping(value = "/saveGroup", method = RequestMethod.POST)
-    public @ResponseBody ResponseObject saveCourseGroup(@RequestBody CourseGroupVO courseGroupVO) throws ApplicationException {  
+    public @ResponseBody ResponseObject saveCourseGroup(@RequestBody GroupVO courseGroupVO) throws ApplicationException {  
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			CourseGroupVO groups = adminService.findGroupByName(courseGroupVO.getGroupName());
+			GroupVO groups = adminService.findGroupByName(courseGroupVO.getGroupName());
 			if (groups != null && groups.getGroupId() != null) {
 				courseGroupVO.setGroupId(groups.getGroupId());
 			}
-			CourseGroup courseGroup = adminService.saveGroup(courseGroupVO);
+			Group courseGroup = adminService.saveGroup(courseGroupVO);
 			if (courseGroup != null && courseGroup.getId() != null) {
-				List<CourseGroupVO> groupList = adminService.findAllGroups();
+				List<GroupVO> groupList = adminService.findAllGroups();
 				responseObject.setResult(groupList);
 				responseObject.setStatus(Constants.SUCCESS);
 			}else {
@@ -80,17 +79,35 @@ public class AdminController {
 	public @ResponseBody ResponseObject deleteGroup(@RequestParam String groupName) throws ApplicationException { 
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			CourseGroupVO groups = adminService.findGroupByName(groupName);
+			GroupVO groups = adminService.findGroupByName(groupName);
 			if (groups != null) {
 				Integer groupId = groups.getGroupId();
 				if (groupId != null){
 					adminService.deleteGroup(groupId);
-					List<CourseGroupVO> groupList = adminService.findAllGroups();
+					List<GroupVO> groupList = adminService.findAllGroups();
 					responseObject.setResult(groupList);
 					responseObject.setStatus(Constants.SUCCESS);
 				}
 			}else {
 				responseObject.setStatus(Constants.FAILURE);
+			}
+			
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException();
+		}
+		return responseObject;  
+	}
+	@RequestMapping(value="/loadAllCourses", method = RequestMethod.GET)  
+	public @ResponseBody ResponseObject getAllCourses() throws ApplicationException { 
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			List<CourseVO> courses = adminService.findAllCourses();
+			if (!CollectionUtils.isEmpty(courses)) {
+				responseObject.setResult(courses);
+				responseObject.setStatus(Constants.SUCCESS);
+			}else {
+				responseObject.setStatus(Constants.EMPTY);
 			}
 			
 		} catch (ApplicationException e) {

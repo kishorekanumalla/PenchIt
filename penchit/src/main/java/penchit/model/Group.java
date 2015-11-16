@@ -1,24 +1,29 @@
 package penchit.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "course_group")
-public class CourseGroup {
+@Table(name = "group_master")
+public class Group {
 	
 	 	@Id
 	    @GeneratedValue(strategy=GenerationType.AUTO)
-	    @Column(name = "ID")
+	    @Column(name = "GROUP_ID")
 	    private Integer id;
-	    @Column(name = "NAME")
+	    @Column(name = "GROUP_NAME")
 	    private String name;
-	    @Column(name = "DIVISIONS")
+	    @Column(name = "GROUP_DIVISIONS")
 	    private String divisions;
+	    @ManyToMany(mappedBy="groups")
+	    public Set<Course> courses;
 	    
 		 public Integer getId() {
 			return id;
@@ -43,10 +48,18 @@ public class CourseGroup {
 			this.divisions = divisions;
 		}
 
+		public Set<Course> getCourses() {
+			return courses;
+		}
+
+		public void setCourses(Set<Course> courses) {
+			this.courses = courses;
+		}
+
 		@Override
 	    public boolean equals(Object object) {
 	        if (object instanceof User){
-	        	CourseGroup user = (CourseGroup) object;
+	        	Group user = (Group) object;
 	            return user.id == id;
 	        }
 

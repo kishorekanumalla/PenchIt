@@ -1,4 +1,5 @@
 headerApp.controller('CoursesCtrl', function($scope, $http, $location, $uibModal){
+	
 	$("#welcomeContent").hide();
 	var url =  _contextPath + "/loadAll";
 	$("#addGroupId").show();
@@ -11,6 +12,24 @@ headerApp.controller('CoursesCtrl', function($scope, $http, $location, $uibModal
 			}
 	  } else if(data.status == "FAILURE"){
   		alert("Fetch Group failed")
+  	}
+	  
+   }).error(function(data, status) {
+           $scope.messages = data || "Request failed";
+           $scope.status = status;
+           alert(status);
+       });  
+	var url =  _contextPath + "/loadAllCourses";
+	$("#addGroupId").show();
+	$scope.courseItems = [];
+	$scope.selectedCourseLabel = "Please select a Course";
+  $http.get(url).success(function(data, status) {
+	  if (data.status == "SUCCESS") {
+		  for(var i=0; i< data.result.length; i++) {
+	          $scope.courseItems.push(data.result[i]);
+			}
+	  } else if(data.status == "FAILURE"){
+  		alert("Fetch course failed")
   	}
 	  
    }).error(function(data, status) {
