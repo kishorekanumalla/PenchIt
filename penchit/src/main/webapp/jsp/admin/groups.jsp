@@ -1,6 +1,6 @@
 
-<div class="btn-group" uib-dropdown uib-keyboard-nav style="margin-top:30px;margin-left:300px">
-        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary"   uib-dropdown-toggle>
+<div class="btn-group" uib-dropdown uib-keyboard-nav style="margin-top:30px;margin-left:300px" >
+        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary" style="min-width:180px"  uib-dropdown-toggle>
             {{selectedGroupLabel}} <span class="caret"></span>
         </button>
         <ul class="uib-dropdown-menu" role="menu" style="min-width:180px" aria-labelledby="simple-btn-keyboard-nav">

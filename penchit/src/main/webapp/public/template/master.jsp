@@ -14,6 +14,7 @@
         <script src="<c:url value='/resources/js/angular-route.min.js' />"></script>
         <script src="<c:url value='/resources/js/ui-bootstrap-tpls-0.14.3.min.js' />"></script>
         <script src="<c:url value='/resources/js/jquery-1.9.1.min.js' />"></script>
+        <script src="<c:url value='/resources/js/bootstrap-filestyle.min.js' />"></script>
         <script src="<c:url value='/resources/js/common.js' />"></script>
       	<link href="<c:url value='/resources/css/bootstrap.min.css'  />" rel="stylesheet" id="bootStrapId"/>
         
