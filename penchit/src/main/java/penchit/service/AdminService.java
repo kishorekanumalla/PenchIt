@@ -1,6 +1,8 @@
 package penchit.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,20 @@ public class AdminService {
 	try {
 		List<Course> courseList  = (List<Course>)courseRepository.findAll();
 		courseVOList = AdminHelper.convertCourseListDTOToVO(courseList);
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+      return courseVOList;
+   }
+   public List<CourseVO> findCoursesByGroupName(String groupName) throws ApplicationException {
+	   List<CourseVO> courseVOList = null;
+	try {
+		List<Group> courseGroup  = (List<Group>)groupRepository.findByName(groupName);
+		if (!CollectionUtils.isEmpty(courseGroup)) {
+			Group group = courseGroup.get(0);
+			List<Course> courses = courseRepository.findCoursesByGroupId(group.getId());
+			courseVOList = AdminHelper.convertCourseListDTOToVO(courses);
+		}
 	} catch (Exception e) {
 		throw new ApplicationException();
 	}
@@ -77,4 +93,31 @@ public class AdminService {
 	}
 	   return courseGroup;
 	}
+   public Course saveCourse(CourseVO courseVO) throws ApplicationException {
+	   Course course = null;
+	   String groupName = courseVO.getGroupName();
+	   Set<Group> groups = new HashSet<Group>();
+	try {
+		List<Group> group  = (List<Group>)groupRepository.findByName(groupName);
+		course = AdminHelper.convertCourseVOToDTO(courseVO);
+		groups.addAll(group);
+		course.setGroups(groups);
+		course = courseRepository.save(course);
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+	   return course;
+	}
+   public CourseVO findCourseById(Integer courseId) throws ApplicationException {
+	   CourseVO courseVO = null;
+	try {
+		Course course  = (Course)courseRepository.findOne(courseId);
+		if (course != null) {
+			courseVO = AdminHelper.convertCourseDTOToVO(course);
+		}
+	} catch (Exception e) {
+		throw new ApplicationException(e);
+	}
+      return courseVO;
+   }
 }

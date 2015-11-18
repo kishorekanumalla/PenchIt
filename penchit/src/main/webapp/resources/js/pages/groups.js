@@ -118,7 +118,6 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 		    		  }
 		    		$scope.groupName = "";
 		    		$scope.selectedGroupLabel = "Please select a Group";
-		    		openSMModalWindow($uibModal);
 		    	} else {
 		    		alert("ADD Group failed")
 		    	}
@@ -227,5 +226,7 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 			$scope[divName] = '';
 		}
 	}
+	
+	
 
 });

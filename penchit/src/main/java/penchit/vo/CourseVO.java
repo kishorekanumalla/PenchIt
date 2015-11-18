@@ -2,6 +2,8 @@ package penchit.vo;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CourseVO {
 	
 	private String courseName;
@@ -11,8 +13,15 @@ public class CourseVO {
 	private Integer coursePrice;
 	private byte[] courseLogo;
 	private String version;
-	private List<GroupVO> groupVOList;
+	private String courseLogoName;
+	private String groupName;
 	
+	public String getGroupName() {
+		return groupName;
+	}
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 	public String getCourseName() {
 		return courseName;
 	}
@@ -43,23 +52,24 @@ public class CourseVO {
 	public void setCoursePrice(Integer coursePrice) {
 		this.coursePrice = coursePrice;
 	}
-	public byte[] getCourseLogo() {
-		return courseLogo;
-	}
-	public void setCourseLogo(byte[] courseLogo) {
-		this.courseLogo = courseLogo;
-	}
 	public String getVersion() {
 		return version;
 	}
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	public List<GroupVO> getGroupVOList() {
-		return groupVOList;
+	public String getCourseLogoName() {
+		return courseLogoName;
 	}
-	public void setGroupVOList(List<GroupVO> groupVOList) {
-		this.groupVOList = groupVOList;
+	public void setCourseLogoName(String courseLogoName) {
+		this.courseLogoName = courseLogoName;
 	}
+	public byte[] getCourseLogo() {
+		return courseLogo;
+	}
+	public void setCourseLogo(byte[] courseLogo) {
+		this.courseLogo = courseLogo;
+	}
+	
 	
 }

@@ -29,6 +29,9 @@
             <property name="useCacheControlNoStore" value="true"/>
         </bean>
     </mvc:interceptors>
+    
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
     <!-- TILES -->
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">

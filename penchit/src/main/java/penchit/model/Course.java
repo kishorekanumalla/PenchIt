@@ -1,5 +1,6 @@
 package penchit.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -34,8 +35,27 @@ public class Course {
     @Lob
     @Column(name = "COURSE_LOGO")
     private byte[] logo;
+    @Column(name = "COURSE_LOGO_NAME")
+    private String logoName;
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+    @Column(name = "CREATED_DT")
+    private Date createdDate;
+    @Column(name = "UPDATED_BY")
+    private String updatedBy;
+    @Column(name = "UPDATED_DT")
+    private Date updatedDate;
     
-    @ManyToMany
+    
+    public String getLogoName() {
+		return logoName;
+	}
+
+	public void setLogoName(String logoName) {
+		this.logoName = logoName;
+	}
+
+	@ManyToMany
     @JoinTable(name="COURSE_GROUP",joinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID"),inverseJoinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUP_ID"))
     public Set<Group> groups;
 
@@ -101,6 +121,38 @@ public class Course {
 
 	public void setGroups(Set<Group> groups) {
 		this.groups = groups;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
     	
 }

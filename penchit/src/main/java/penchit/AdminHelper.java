@@ -1,7 +1,11 @@
 package penchit;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import penchit.exception.ApplicationException;
 import penchit.model.Course;
@@ -14,11 +18,16 @@ public class AdminHelper {
 	
 	public static Group convertGroupVOToDTO(GroupVO courseGroupVO) throws ApplicationException {
 		Group group;
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try {
 			group = new Group();
 			group.setName(courseGroupVO.getGroupName());
 			group.setDivisions(courseGroupVO.getDivision());
 			group.setId(courseGroupVO.getGroupId());
+			group.setCreatedBy(user.getUsername());
+			group.setCreatedDate(new Date());
+			group.setUpdatedBy(user.getUsername());
+			group.setUpdatedDate(new Date());
 		} catch (Exception e) {
 			throw new ApplicationException();	
 		}
@@ -59,11 +68,10 @@ public class AdminHelper {
 				CourseVO courseVO = new CourseVO();
 				courseVO.setCourseId(course.getId());
 				courseVO.setCourseDesc(course.getDescription());
-				courseVO.setCourseLogo(course.getLogo());
+//				courseVO.setCourseLogo(course.getLogo());
 				courseVO.setCourseName(course.getName());
 				courseVO.setCoursePrice(course.getPrice());
-				List<GroupVO> groupVO = convertGroupListDTOToVO(new ArrayList<Group>(course.getGroups()));
-				courseVO.setGroupVOList(groupVO);
+				courseVO.setCourseLogoName(course.getLogoName());
 				courseVO.setVersion(course.getVersion());
 				courseListVO.add(courseVO);
 			}
@@ -80,12 +88,32 @@ public class AdminHelper {
 			courseVO.setCourseLogo(course.getLogo());
 			courseVO.setCourseName(course.getName());
 			courseVO.setCoursePrice(course.getPrice());
-			List<GroupVO> groupVO = convertGroupListDTOToVO(new ArrayList<Group>(course.getGroups()));
-			courseVO.setGroupVOList(groupVO);
+			courseVO.setCourseLogoName(course.getLogoName());
 			courseVO.setVersion(course.getVersion());
+			courseVO.setCourseSyllabus(course.getSyllabus());
 		} catch (Exception e) {
 			throw new ApplicationException();	
 		}
 	return courseVO;
+}
+	public static Course convertCourseVOToDTO(CourseVO courseVO) throws ApplicationException {
+		Course course = new Course();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			course.setName(courseVO.getCourseName());
+			course.setSyllabus(courseVO.getCourseSyllabus());
+			course.setDescription(courseVO.getCourseDesc());
+			course.setPrice(courseVO.getCoursePrice());
+			course.setLogo(courseVO.getCourseLogo());
+			course.setLogoName(courseVO.getCourseLogoName());
+			course.setVersion(courseVO.getVersion());
+			course.setCreatedBy(user.getUsername());
+			course.setCreatedDate(new Date());
+			course.setUpdatedBy(user.getUsername());
+			course.setUpdatedDate(new Date());
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return course;
 }
 }
