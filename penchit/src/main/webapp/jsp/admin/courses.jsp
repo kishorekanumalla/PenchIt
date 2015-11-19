@@ -26,7 +26,7 @@
         </li>
         </ul>
         <button  ng-click="addNewCourse();removeAllErrorMessagesInCourse();"  class="btn btn-success" style="margin-left:50px;">Add New Course</button>
-        <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseNameEmptyError">Please select the Course Name</div>
+        <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseUniqueNameError">Course Name is already exisisting</div>
         
     </div>
     
@@ -88,17 +88,17 @@
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
           <button  ng-click="addCourse();" class="btn btn-success" id="addCourseId" style="display:none">Submit</button>
-          <button  ng-click="editCourse();" class="btn btn-success" id="editCourseId" style="display:none">Edit</button>
+          <button  ng-click="addCourse();" class="btn btn-success" id="editCourseId" style="display:none">Edit</button>
           <button  ng-click="deleteCourse();" style="margin-left:10px;" class="btn btn-success">Delete</button>
         </div>
           
         </div>
       </div>
-      <div id="courseLogoContent" style="display:none" />
-       <div id="courseId" style="display:none" />
-       <div id="courseLogoNameId" style="display:none" />
+      <input type="hidden" id="courseLogoContent"  />
+      <input type="hidden" id="courseId"  />
+      <input type="hidden" id="courseLogoNameId"  />
 </form>
-<div  id="imageModalContent">
+<div  id="imageModalContent" style="display:none">
         <div class="modal-header">
             <h3 class="modal-title">Image</h3>
         </div>

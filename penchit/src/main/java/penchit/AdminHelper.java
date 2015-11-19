@@ -68,11 +68,12 @@ public class AdminHelper {
 				CourseVO courseVO = new CourseVO();
 				courseVO.setCourseId(course.getId());
 				courseVO.setCourseDesc(course.getDescription());
-//				courseVO.setCourseLogo(course.getLogo());
+				courseVO.setCourseLogo(course.getLogo());
 				courseVO.setCourseName(course.getName());
 				courseVO.setCoursePrice(course.getPrice());
 				courseVO.setCourseLogoName(course.getLogoName());
 				courseVO.setVersion(course.getVersion());
+				courseVO.setCourseSyllabus(course.getSyllabus());
 				courseListVO.add(courseVO);
 			}
 		} catch (Exception e) {

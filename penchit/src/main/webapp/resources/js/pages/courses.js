@@ -30,8 +30,15 @@ headerApp.controller('CoursesCtrl', function($scope, $http, $location, $uibModal
 	  $scope.selectedCourseLabel = course.courseName;
 	  $("#courseId").val(course.courseId);
 	  $("#viewLogo").show();
-	  $("#logoName").text(course.courseLogoName);
-	  $("#courseLogoNameId").val(course.courseLogoName);
+	  
+	 //Assisgn values from course object
+  	$scope.courseName = course.courseName;
+	$scope.courseDesc = course.courseDesc;
+	$scope.courseSyllabus = course.courseSyllabus;
+	$scope.coursePrice = course.coursePrice;
+	$scope.versionId = course.version;
+	$("#logoName").text(course.courseLogoName);
+	$("#courseLogoNameId").val(course.courseLogoName);
   }
 $scope.selectGroup = function(group) {
 	$("#addCourseId").show();
@@ -76,11 +83,13 @@ $scope.selectGroup = function(group) {
 $scope.addNewCourse = function() {
 	 $("#addCourseId").show();
 	 $("#editCourseId").hide();
+	 $scope.selectedCourseLabel = "Please select a Course";
 	var groupName = $scope.selectedGroupLabel;
 	if (groupName.length == 0 || groupName == "Please select a Group") {
 		$("#groupNameError").show();
 		return false;
 	}
+	resetValues();
 }
 
 $scope.removeErrorMessage = function(errorId) {
@@ -88,40 +97,59 @@ $scope.removeErrorMessage = function(errorId) {
 }
 
 $scope.addCourse = function() {
-	if (isFormValid()) {
-		
-		var file = $("#logoId").val();
-	    var filename = file.replace(/^.*[\\\/]/, '');
-	    var title = filename.substr(0, filename.lastIndexOf('.'));
-	    var courseLogoContent = $("#courseLogoContent").val();
-		
-		var url =  _contextPath + "/saveCourse";
-		var formData = new FormData();
-		formData.append("file",courseLogoContent);
-		formData.append("courseName",$scope.courseName);
-		formData.append("courseDesc",$scope.courseDesc);
-		formData.append("courseSyllabus",$scope.courseSyllabus);
-		formData.append("coursePrice",$scope.coursePrice);
-		formData.append("version",$scope.versionId);
-		formData.append("courseLogoName",title);
-		formData.append("groupName",$scope.selectedGroupLabel);
-		
-		$http({
-            method: 'POST',
-            url: url,
-            headers: { 'Content-Type': undefined},
-            data:  formData
-          })
-          .success(function(data, status) {                       
-              alert("Success ... " + status);
-          })
-          .error(function(data, status) {
-              alert("Error ... " + status);
-          });
-
+	if (isFormValid() && isCourseUnique()) {
+	    submitDetails();
 	}
 };
 
+function submitDetails() {
+	var file = $("#logoId").val();
+    var filename = file.replace(/^.*[\\\/]/, '');
+    var title = filename.substr(0, filename.lastIndexOf('.'));
+    var courseLogoContent = $("#courseLogoContent").val();
+    alert(courseLogoContent);
+	var url =  _contextPath + "/saveCourse";
+	var formData = new FormData();
+	formData.append("file",courseLogoContent);
+	formData.append("courseName",$scope.courseName);
+	formData.append("courseDesc",$scope.courseDesc);
+	formData.append("courseSyllabus",$scope.courseSyllabus);
+	formData.append("coursePrice",$scope.coursePrice);
+	formData.append("version",$scope.versionId);
+	formData.append("courseLogoName",title);
+	formData.append("groupName",$scope.selectedGroupLabel);
+	$scope.selectedCourseLabel = "Please select a Course";
+	$scope.courseItems = [];
+	$http({
+        method: 'POST',
+        url: url,
+        headers: { 'Content-Type': undefined},
+        data:  formData
+      })
+      .success(function(data, status) {                       
+    	  for(var i=0; i< data.result.length; i++) {
+	          $scope.courseItems.push(data.result[i]);
+			}
+    	  $scope.selectedCourseLabel = $scope.courseName;
+    	  openSMModalWindow($uibModal);
+      })
+      .error(function(data, status) {
+          alert("Error ... " + status);
+      });
+}
+function isCourseUnique() {
+	var result = true;
+	var courseName = $scope.courseName;
+	var courseLabelName = $scope.selectedCourseLabel;
+	  var courseItems = $scope.courseItems;
+	  for (var i=0;i<courseItems.length;i++){
+		  if(courseItems[i].courseName == courseName && courseLabelName != courseName){
+			  $("#courseUniqueNameError").show();
+			  return false;
+		  }
+	  }
+	  return result;
+}
 function isFormValid() {
 	var result = true;
 	var courseName = $scope.courseName;
@@ -176,6 +204,7 @@ $scope.removeAllErrorMessagesInCourse = function() {
 	$("#courseSyllabusError").hide();
 	$("#coursePriceError").hide();
 	$("#courseLogoError").hide();
+	$("courseUniqueNameError").hide();
 }
 $scope.uploadFile = function(files) {
 	$("#courseLogoContent").val(files[0]);
@@ -208,6 +237,18 @@ $scope.viewLogo = function() {
 
 $scope.closeImageDialog = function() {
 	$("#imageModalContent").dialog( "close" );
+}
+
+function resetValues() {
+	$scope.selectedCourseLabel = "Please select a Course";
+	$scope.courseName = "";
+	$scope.courseDesc = "";
+	$scope.courseSyllabus = "";
+	$scope.coursePrice = "";
+	$scope.versionId = "";
+	$("#viewLogo").hide();
+	$("#courseLogoContent").val("");
+	$("#logoId").val("")
 }
 
 });

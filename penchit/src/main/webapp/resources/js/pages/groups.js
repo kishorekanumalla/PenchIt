@@ -57,7 +57,9 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 	  $("#editGroupId").show();
 	  $("#groupUniqueNameError").text('');
 	  if (isValidForm()) {
-		  submitDetails();
+		  if(isGroupUnique()) {
+			 submitDetails();
+		  }
 	  }
 	};
 	$scope.addGroup = function() {
@@ -73,9 +75,10 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 	function isGroupUnique() {
 		var result = true;
 		var groupName = $scope.groupName;
+		var groupLabelName = $scope.selectedGroupLabel;
 		  var groupItems = $scope.groupItems;
 		  for (var i=0;i<groupItems.length;i++){
-			  if(groupItems[i].groupName == groupName){
+			  if(groupItems[i].groupName == groupName && groupLabelName != groupName){
 				  $("#groupUniqueNameError").show();
 				  $("#groupUniqueNameError").text("Group Name is already exisiting")
 				  return false;
@@ -118,6 +121,7 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 		    		  }
 		    		$scope.groupName = "";
 		    		$scope.selectedGroupLabel = "Please select a Group";
+		    		 openSMModalWindow($uibModal);
 		    	} else {
 		    		alert("ADD Group failed")
 		    	}

@@ -168,6 +168,10 @@ public class AdminController {
 			 courseVO.setCourseSyllabus(courseSyllabus);
 			 MultipartFile mFile = mRequest.getFile("file");
 			 courseVO.setCourseLogo(mFile.getBytes());
+			 CourseVO tempCourse = adminService.findCourseByName(courseName);
+			 if (tempCourse != null && tempCourse.getCourseId() != null) {
+				courseVO.setCourseId(tempCourse.getCourseId());
+			 }
 			 Course course = adminService.saveCourse(courseVO);
 			 if (course != null && course.getId() != null) {
 					List<CourseVO> courses = adminService.findAllCourses();

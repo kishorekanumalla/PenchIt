@@ -3,6 +3,7 @@ package penchit.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -55,7 +56,7 @@ public class Course {
 		this.logoName = logoName;
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade= {CascadeType.ALL})
     @JoinTable(name="COURSE_GROUP",joinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID"),inverseJoinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUP_ID"))
     public Set<Group> groups;
 

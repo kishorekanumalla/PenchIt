@@ -13,5 +13,7 @@ import penchit.model.Group;
 	 @Query(value = "SELECT c FROM Course c INNER JOIN c.groups groups WHERE groups.id = :groupId")
 	 List<Course> findCoursesByGroupId(@Param("groupId") Integer groupId);
 	 
+	 List<Course> findByName(String courseName);
+	 
 
 }

@@ -120,4 +120,16 @@ public class AdminService {
 	}
       return courseVO;
    }
+   public CourseVO findCourseByName(String courseName) throws ApplicationException {
+	   CourseVO courseVO = null;
+	try {
+		List<Course> course  = (List<Course>)courseRepository.findByName(courseName);
+		if (!CollectionUtils.isEmpty(course)) {
+			courseVO = AdminHelper.convertCourseListDTOToVO(course).get(0);
+		}
+	} catch (Exception e) {
+		throw new ApplicationException(e);
+	}
+      return courseVO;
+   }
 }

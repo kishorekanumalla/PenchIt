@@ -3,6 +3,7 @@ package penchit.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Group {
 	    private String name;
 	    @Column(name = "GROUP_DIVISIONS")
 	    private String divisions;
-	    @ManyToMany(mappedBy="groups")
+	    @ManyToMany(cascade= {CascadeType.ALL}, mappedBy="groups")
 	    public Set<Course> courses;
 	    @Column(name = "CREATED_BY")
 	    private String createdBy;
