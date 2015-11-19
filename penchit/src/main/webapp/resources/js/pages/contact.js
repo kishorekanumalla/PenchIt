@@ -16,7 +16,7 @@ headerApp.controller('ContactCtrl', function($scope, $http, $location, $uibModal
 		  $scope.contactMobileNo = result.contactMobileNo;
 		  $scope.contactEmailId = result.contactEmail;
 		  $("#contactId").val(result.contactId);
-//		  $scope. = result.contactAboutsUs;
+		  $('#summerNote').code(result.contactAboutsUs);
 		  
 	  } else if(data.status == "FAILURE"){
   		alert("Fetch Contact failed")
@@ -31,27 +31,33 @@ headerApp.controller('ContactCtrl', function($scope, $http, $location, $uibModal
   $scope.submitContact = function() {
 	  
 	  var contactId = $("#contactId").val();
+	  var contactname = $scope.contactName;
+	  var contactLandLineNo = $scope.contactLandLineNo;
+	  var contactMobileNo = $scope.contactMobileNo;
+	  var contactEmailId = $scope.contactEmailId;
+	  var sHTML = $('#summerNote').code();
 	  
 	  var contactInfoVO = {
 			  "contactId":contactId,
-              "contactName" : $scope.contactName,
-              "contactLandLineNo" : $scope.contactLandLineNo,
-              "contactMobileNo" : $scope.contactMobileNo,
-              "contactEmail" : $scope.contactEmailId,
-              "contactAboutsUs" : "abc"
+              "contactName" : contactname,
+              "contactLandLineNo" : contactLandLineNo,
+              "contactMobileNo" : contactMobileNo,
+              "contactEmail" : contactEmailId,
+              "contactAboutsUs" : sHTML
       };
-	 var contactInfo =  JSON.stringify(contactInfoVO);
+//	 var contactInfo =  JSON.stringify(contactInfoVO);
+//	 alert(contactInfo);
 		var url =  _contextPath + "/saveContact";
 		$http({
 	        method: 'POST',
 	        url: url,
-	        data: ''
+	        data: contactInfoVO
 	      })
 	      .success(function(data, status) {                       
 	    	  openSMModalWindow($uibModal);
 	      })
 	      .error(function(data, status) {
-	          alert("Error ... " + status);
+	    	  alert( "Exception details: " + JSON.stringify({data: data}));
 	      });
 	  
   }
