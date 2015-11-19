@@ -1,7 +1,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
         <title><spring:message  code="project.title" /></title>
@@ -20,6 +20,11 @@
         <script src="<c:url value='/resources/js/bootstrap-filestyle.min.js' />"></script>
         <script src="<c:url value='/resources/js/common.js' />"></script>
       	<link href="<c:url value='/resources/css/bootstrap.min.css'  />" rel="stylesheet" id="bootStrapId"/>
+      	<link href="<c:url value='/resources/css/font-awesome.min.css'/>" rel="stylesheet" type="text/css" />
+      	<link href="<c:url value='/resources/css/summernote.css' />" rel="stylesheet">
+        <script src="<c:url value='/resources/js/summernote.min.js' />"></script>
+        
+        
         
     
     </head>

@@ -27,6 +27,8 @@
         </ul>
         <button  ng-click="addNewCourse();removeAllErrorMessagesInCourse();"  class="btn btn-success" style="margin-left:50px;">Add New Course</button>
         <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseUniqueNameError">Course Name is already exisisting</div>
+        <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseNameEmptyError">Please select a course to delete</div>
+        
         
     </div>
     
@@ -55,8 +57,8 @@
       </div>
       <div class="form-group">
         <label for="group2" class="col-sm-3 control-label">Upload Logo</label>
-        <div class="col-sm-5">
-          <input type="file" class="filestyle" id="logoId" onchange="angular.element(this).scope().uploadFile(this.files)"  id="courseLogo"  ng-click="removeErrorMessage('courseLogoError');" data-placeholder="No file">
+        <div class="col-sm-5" id="imageUpload">
+          <input type="file" class="filestyle" id="logoId" onchange="angular.element(this).scope().uploadFile(this.files)"    ng-click="removeErrorMessage('courseLogoError');" data-placeholder="No file">
         </div>
         <div style="padding-top:5px;color:red;display:none" id="courseLogoError" >Please enter the Course Logo</div>
       </div>
@@ -94,7 +96,7 @@
           
         </div>
       </div>
-      <input type="hidden" id="courseLogoContent"  />
+      <div id="courseLogoContent"  />
       <input type="hidden" id="courseId"  />
       <input type="hidden" id="courseLogoNameId"  />
 </form>

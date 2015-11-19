@@ -14,7 +14,10 @@ headerApp.config(function($routeProvider){
 			controller: 'GroupsCtrl' } )
 		.when('/courses', { 
 			templateUrl: 'courses.html',
-			controller: 'CoursesCtrl'  });
+			controller: 'CoursesCtrl'  })
+		.when('/contact', { 
+			templateUrl: 'contact.html',
+			controller: 'ContactCtrl'  });
 });
 
 headerApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {

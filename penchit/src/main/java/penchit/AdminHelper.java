@@ -8,8 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import penchit.exception.ApplicationException;
+import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
+import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
 
@@ -112,9 +114,43 @@ public class AdminHelper {
 			course.setCreatedDate(new Date());
 			course.setUpdatedBy(user.getUsername());
 			course.setUpdatedDate(new Date());
+			course.setId(courseVO.getCourseId());
 		} catch (Exception e) {
 			throw new ApplicationException();	
 		}
 	return course;
+}
+	public static ContactInfo convertContactVOToDTO(ContactInfoVO contactInfoVO) throws ApplicationException {
+		ContactInfo contactInfo = new ContactInfo();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			contactInfo.setAboutsUs(contactInfoVO.getContactAboutsUs());
+			contactInfo.setEmail(contactInfoVO.getContactEmail());
+			contactInfo.setId(contactInfoVO.getContactId());
+			contactInfo.setLandLineNo(contactInfoVO.getContactLandLineNo());
+			contactInfo.setMobileNo(contactInfoVO.getContactMobileNo());
+			contactInfo.setName(contactInfoVO.getContactName());
+			contactInfo.setCreatedBy(user.getUsername());
+			contactInfo.setCreatedDate(new Date());
+			contactInfo.setUpdatedBy(user.getUsername());
+			contactInfo.setUpdatedDate(new Date());
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return contactInfo;
+}
+	public static ContactInfoVO convertContactDTOToVO(ContactInfo contactInfo) throws ApplicationException {
+		ContactInfoVO contactInfoVO = new ContactInfoVO();
+		try {
+			contactInfoVO.setContactAboutsUs(contactInfo.getAboutsUs());
+			contactInfoVO.setContactEmail(contactInfo.getEmail());
+			contactInfoVO.setContactId(contactInfo.getId());
+			contactInfoVO.setContactLandLineNo(contactInfo.getLandLineNo());
+			contactInfoVO.setContactMobileNo(contactInfo.getMobileNo());
+			contactInfoVO.setContactName(contactInfo.getName());
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return contactInfoVO;
 }
 }

@@ -10,10 +10,13 @@ import org.springframework.util.CollectionUtils;
 
 import penchit.AdminHelper;
 import penchit.exception.ApplicationException;
+import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
+import penchit.repository.ContactInfoRepository;
 import penchit.repository.CourseRepository;
 import penchit.repository.GroupRepository;
+import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
 
@@ -24,6 +27,8 @@ public class AdminService {
 	
 	@Autowired
 	public GroupRepository groupRepository;
+	@Autowired
+	public ContactInfoRepository contactInfoRepository;
 	
 	@Autowired
 	public CourseRepository courseRepository;
@@ -84,14 +89,12 @@ public class AdminService {
 	}
 	   return courseGroup;
 	}
-   public Group deleteGroup(Integer groupId) throws ApplicationException {
-	   Group courseGroup = null;
-	try {
-		groupRepository.delete(groupId);
-	} catch (Exception e) {
-		throw new ApplicationException();
-	}
-	   return courseGroup;
+   public void deleteGroup(Integer groupId) throws ApplicationException {
+		try {
+			groupRepository.delete(groupId);
+		} catch (Exception e) {
+			throw new ApplicationException();
+		}
 	}
    public Course saveCourse(CourseVO courseVO) throws ApplicationException {
 	   Course course = null;
@@ -132,4 +135,33 @@ public class AdminService {
 	}
       return courseVO;
    }
+   public void deleteCourse(Integer courseId) throws ApplicationException {
+		try {
+			courseRepository.delete(courseId);
+		} catch (Exception e) {
+			throw new ApplicationException();
+		}
+	}
+   public ContactInfoVO findContactInfo() throws ApplicationException {
+	   ContactInfoVO contactInfoVO = null;
+	try {
+		List<ContactInfo> contactInfoList  = (List<ContactInfo>)contactInfoRepository.findAll();
+		if (!CollectionUtils.isEmpty(contactInfoList)) {
+			contactInfoVO = AdminHelper.convertContactDTOToVO(contactInfoList.get(0));
+		}
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+      return contactInfoVO;
+   }
+   public ContactInfo saveContactinfo(ContactInfoVO contactInfoVO) throws ApplicationException {
+	   ContactInfo contactInfo = null;
+	try {
+		contactInfo = AdminHelper.convertContactVOToDTO(contactInfoVO);
+		contactInfo = contactInfoRepository.save(contactInfo);
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+	   return contactInfo;
+	}
 }

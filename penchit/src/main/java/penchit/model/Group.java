@@ -24,7 +24,7 @@ public class Group {
 	    private String name;
 	    @Column(name = "GROUP_DIVISIONS")
 	    private String divisions;
-	    @ManyToMany(cascade= {CascadeType.ALL}, mappedBy="groups")
+	    @ManyToMany(cascade= {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy="groups")
 	    public Set<Course> courses;
 	    @Column(name = "CREATED_BY")
 	    private String createdBy;

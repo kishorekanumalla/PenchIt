@@ -24,10 +24,14 @@
 	          		<p><spring:message code="header.courses"/></p>
 	          </a>
          </li>
+         <li>
+	          <a title='<spring:message code="header.contact"/>'  href="#/contact">
+	          		<p><spring:message code="header.contact"/></p>
+	          </a>
+         </li>
          
           <li><a href="about.html">Clients</a></li>
           <li><a href="portfolio.html">Gallery</a></li>
-          <li><a href="blog.html">Contact Us</a></li>
           <li><a href="contact.php">Reports</a></li>
           <li><a href="<c:url value='/logout' />" title='<spring:message code="header.logout"/>'><spring:message code="header.logout"/></a></li>
         </ul>
@@ -36,5 +40,6 @@
      <script src="<c:url value='/resources/js/pages/header.js' />"></script>
      <script src="<c:url value='/resources/js/pages/groups.js' />"></script>
      <script src="<c:url value='/resources/js/pages/courses.js' />"></script>
+     <script src="<c:url value='/resources/js/pages/contact.js' />"></script>
     
     </html>

@@ -19,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import penchit.Constants;
 import penchit.exception.ApplicationException;
+import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
 import penchit.service.AdminService;
+import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
 import penchit.vo.ResponseObject;
@@ -40,6 +42,10 @@ public class AdminController {
 	@RequestMapping(value = "/admin/courses.html",method = RequestMethod.GET)
     public ModelAndView getCoursePage() {
         return new ModelAndView("adminCoursePage");
+    }
+	@RequestMapping(value = "/admin/contact.html",method = RequestMethod.GET)
+    public ModelAndView getContactPage() {
+        return new ModelAndView("adminContactPage");
     }
 	@RequestMapping(value="/loadAll", method = RequestMethod.GET)  
 	public @ResponseBody ResponseObject getAllGroups() throws ApplicationException { 
@@ -174,7 +180,7 @@ public class AdminController {
 			 }
 			 Course course = adminService.saveCourse(courseVO);
 			 if (course != null && course.getId() != null) {
-					List<CourseVO> courses = adminService.findAllCourses();
+					List<CourseVO> courses = adminService.findCoursesByGroupName(groupName);
 					responseObject.setResult(courses);
 					responseObject.setStatus(Constants.SUCCESS);
 			  } else {
@@ -201,6 +207,56 @@ public class AdminController {
 			throw new ApplicationException(e);
 		}
        
+        return responseObject;
+    }
+	@RequestMapping(value="/deleteCourse", method = RequestMethod.GET)  
+	public @ResponseBody ResponseObject deleteCourse(@RequestParam Integer courseId,@RequestParam String groupName) throws ApplicationException { 
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			if (courseId != null){
+				adminService.deleteCourse(courseId);
+				List<CourseVO> courseList = adminService.findCoursesByGroupName(groupName);
+				responseObject.setResult(courseList);
+				responseObject.setStatus(Constants.SUCCESS);
+		    } else {
+				responseObject.setStatus(Constants.FAILURE);
+			}
+			
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException();
+		}
+		return responseObject;  
+	}
+	@RequestMapping(value="/loadContactInfo", method = RequestMethod.GET)  
+	public @ResponseBody ResponseObject loadContactInfo() throws ApplicationException { 
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			ContactInfoVO contactInfoVO = adminService.findContactInfo();
+			if (contactInfoVO != null) {
+				responseObject.setResult(contactInfoVO);
+				responseObject.setStatus(Constants.SUCCESS);
+			}else {
+				responseObject.setStatus(Constants.EMPTY);
+			}
+			
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException();
+		}
+		return responseObject;  
+	}
+	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
+    public @ResponseBody ResponseObject saveContactInfo(@RequestBody ContactInfoVO contactInfoVO) throws ApplicationException {  
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			ContactInfo contactInfo = adminService.saveContactinfo(contactInfoVO);
+			responseObject.setResult(contactInfo);
+			responseObject.setStatus(Constants.SUCCESS);
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException(e);
+		}
         return responseObject;
     }
 }

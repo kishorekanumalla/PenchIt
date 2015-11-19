@@ -1,9 +1,5 @@
 package penchit.vo;
 
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 public class CourseVO {
 	
 	private String courseName;

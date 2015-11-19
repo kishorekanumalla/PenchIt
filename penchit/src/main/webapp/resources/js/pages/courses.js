@@ -31,16 +31,23 @@ headerApp.controller('CoursesCtrl', function($scope, $http, $location, $uibModal
 	  $("#courseId").val(course.courseId);
 	  $("#viewLogo").show();
 	  
+	  $("#logoId").filestyle('clear');
 	 //Assisgn values from course object
   	$scope.courseName = course.courseName;
 	$scope.courseDesc = course.courseDesc;
 	$scope.courseSyllabus = course.courseSyllabus;
 	$scope.coursePrice = course.coursePrice;
 	$scope.versionId = course.version;
+	$("#courseId").val(course.courseId);
+	$("#courseLogoNameId").val(course.courseLogoName)
 	$("#logoName").text(course.courseLogoName);
 	$("#courseLogoNameId").val(course.courseLogoName);
+	$("#courseLogoContent").val(course.courseLogo);
   }
 $scope.selectGroup = function(group) {
+	resetValues();
+	$scope.selectedCourseLabel = "Please select a Course";
+	$scope.courseItems = [];
 	$("#addCourseId").show();
 	$("#editCourseId").hide();
 	$("#groupNameError").hide();
@@ -107,7 +114,6 @@ function submitDetails() {
     var filename = file.replace(/^.*[\\\/]/, '');
     var title = filename.substr(0, filename.lastIndexOf('.'));
     var courseLogoContent = $("#courseLogoContent").val();
-    alert(courseLogoContent);
 	var url =  _contextPath + "/saveCourse";
 	var formData = new FormData();
 	formData.append("file",courseLogoContent);
@@ -129,8 +135,16 @@ function submitDetails() {
       .success(function(data, status) {                       
     	  for(var i=0; i< data.result.length; i++) {
 	          $scope.courseItems.push(data.result[i]);
-			}
+	          var coursename = data.result[i].courseName;
+	          if (coursename == $scope.courseName){
+	        	  $("#courseId").val(data.result[i].courseId);
+	        	  $("#courseLogoNameId").val(data.result[i].courseLogoName)
+	          }
+		}
     	  $scope.selectedCourseLabel = $scope.courseName;
+    	  $("#logoId").filestyle('clear');
+    	  $("#viewLogo").show();
+    	  $("#logoName").text(title);
     	  openSMModalWindow($uibModal);
       })
       .error(function(data, status) {
@@ -159,15 +173,13 @@ function isFormValid() {
 	var logoId = $("#logoId").val();
 	var groupName = $scope.selectedGroupLabel;
 	var selectedCourseLabel = $scope.selectedCourseLabel;
+	var logoName = $("#logoName").val();
 	
 	if (groupName.length == 0 || groupName == "Please select a Group") {
 		$("#groupNameError").show();
 		return false;
 	}
-	/*if (selectedCourseLabel.length == 0 || selectedCourseLabel == "Please select a Course") {
-		$("#courseNameEmptyError").show();
-		return false;
-	}*/
+	
 	if ($.trim(courseName).length == 0) {
 		$("#courseNameError").show();
 		result = false;
@@ -190,7 +202,7 @@ function isFormValid() {
 		$("#coursePriceError").text("Please enter valid price");
 		result = false;
 	}
-	if ($.trim(logoId).length == 0) {
+	if ($.trim(logoId).length == 0 && $.trim(logoName).length == 0) {
 		$("#courseLogoError").show();
 		result = false;
 	}
@@ -208,6 +220,7 @@ $scope.removeAllErrorMessagesInCourse = function() {
 }
 $scope.uploadFile = function(files) {
 	$("#courseLogoContent").val(files[0]);
+	$("#viewLogo").hide();
 };  
 
 $scope.viewLogo = function() {
@@ -248,7 +261,41 @@ function resetValues() {
 	$scope.versionId = "";
 	$("#viewLogo").hide();
 	$("#courseLogoContent").val("");
-	$("#logoId").val("")
+	$("#logoId").val("");
+	$("#courseId").val("");
+	$("#courseLogoNameId").val("");
+	$("#logoId").filestyle('clear');
+}
+$scope.deleteCourse = function() {
+	var selectedCourseLabel = $scope.selectedCourseLabel;
+	var groupName = $scope.selectedGroupLabel;
+	if (selectedCourseLabel.length == 0 || selectedCourseLabel == "Please select a Course") {
+		$("#courseNameEmptyError").show();
+		return false;
+	} else {
+		var courseId = $("#courseId").val();
+		if ($.trim(courseId).length > 0){
+			var url =  _contextPath + "/deleteCourse?courseId="+courseId+"&groupName="+groupName;
+			$scope.selectedCourseLabel = "Please select a Course";
+			$scope.courseItems = [];
+			$http.get(url).success(function(data, status) {
+				  if (data.status == "SUCCESS") {
+					  for(var i=0; i< data.result.length; i++) {
+						  $scope.courseItems.push(data.result[i]);
+						}
+					  openSMModalWindow($uibModal);
+				  } else if (data.status == "FAILURE") {
+			  		alert("Course delete failed")
+			  	}
+				resetValues();  
+			   }).error(function(data, status) {
+			           $scope.messages = data || "Request failed";
+			           $scope.status = status;
+			           alert("Delete group exception");
+			   });  
+		} 
+	}
+	
 }
 
 });

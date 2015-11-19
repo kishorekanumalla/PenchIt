@@ -39,4 +39,9 @@
         <put-attribute name="footer" value=""/>
         <put-attribute name="body" value="/jsp/admin/courses.jsp"/>
     </definition>
+    <definition name="adminContactPage" extends="master.page">
+        <put-attribute name="header" value=""/>
+        <put-attribute name="footer" value=""/>
+        <put-attribute name="body" value="/jsp/admin/contact.jsp"/>
+    </definition>
 </tiles-definitions>

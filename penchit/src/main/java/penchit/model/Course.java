@@ -56,7 +56,7 @@ public class Course {
 		this.logoName = logoName;
 	}
 
-	@ManyToMany(cascade= {CascadeType.ALL})
+	@ManyToMany(cascade= {CascadeType.MERGE})
     @JoinTable(name="COURSE_GROUP",joinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID"),inverseJoinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUP_ID"))
     public Set<Group> groups;
 
