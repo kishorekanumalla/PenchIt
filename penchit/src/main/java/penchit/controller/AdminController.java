@@ -147,48 +147,52 @@ public class AdminController {
 		return responseObject;  
 	}
 	
+	
 	@RequestMapping(value = "/saveCourse", method = RequestMethod.POST)
-    public @ResponseBody ResponseObject saveCourse(HttpServletRequest request) throws ApplicationException, IOException {  
+    public @ResponseBody ResponseObject saveCourseLogo(@RequestBody CourseVO courseVO) throws ApplicationException, IOException {  
 		ResponseObject responseObject = new ResponseObject();
-		
-		 MultipartHttpServletRequest mRequest;
-		 
-	        
 		try {
-			 mRequest = (MultipartHttpServletRequest) request;
-			 String courseName = mRequest.getParameter("courseName");
-			 String courseDesc = mRequest.getParameter("courseDesc");
-			 String courseSyllabus = mRequest.getParameter("courseSyllabus");
-			 String coursePrice = mRequest.getParameter("coursePrice");
-			 String courseVersion = mRequest.getParameter("version");
-			 String courseLogoName = mRequest.getParameter("courseLogoName");
-			 String groupName = mRequest.getParameter("groupName");
-			 
-			 CourseVO courseVO = new CourseVO();
-			 courseVO.setCourseName(courseName);
-			 courseVO.setCourseDesc(courseDesc);
-			 courseVO.setCourseLogoName(courseLogoName);
-			 courseVO.setCoursePrice(Integer.parseInt(coursePrice));
-			 courseVO.setVersion(courseVersion);
-			 courseVO.setGroupName(groupName);
-			 courseVO.setCourseSyllabus(courseSyllabus);
-			 MultipartFile mFile = mRequest.getFile("file");
-			 courseVO.setCourseLogo(mFile.getBytes());
-			 CourseVO tempCourse = adminService.findCourseByName(courseName);
+			 CourseVO tempCourse = adminService.findCourseByName(courseVO.getCourseName());
 			 if (tempCourse != null && tempCourse.getCourseId() != null) {
-				courseVO.setCourseId(tempCourse.getCourseId());
+				 courseVO.setCourseId(tempCourse.getCourseId());
+				 courseVO.setCourseLogo(tempCourse.getCourseLogo());
+				 courseVO.setCourseLogoName(tempCourse.getCourseLogoName());
 			 }
 			 Course course = adminService.saveCourse(courseVO);
 			 if (course != null && course.getId() != null) {
-					List<CourseVO> courses = adminService.findCoursesByGroupName(groupName);
-					responseObject.setResult(courses);
-					responseObject.setStatus(Constants.SUCCESS);
+				 List<CourseVO> courses = adminService.findCoursesByGroupName(courseVO.getGroupName());
+			     responseObject.setResult(courses);
+				 responseObject.setStatus(Constants.SUCCESS);
 			  } else {
 					responseObject.setStatus(Constants.FAILURE);
 			  }
 				
 			
-		} catch (ApplicationException e) {
+		} catch (Exception e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException(e);
+		}
+        return responseObject;
+    }
+	
+	@RequestMapping(value = "/saveCourseLogo", method = RequestMethod.POST)
+    public @ResponseBody ResponseObject saveCourseLogo(@RequestParam("file") MultipartFile file, @RequestParam("courseId") Integer courseId, @RequestParam("groupName") String groupName) throws ApplicationException, IOException {  
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			 CourseVO tempCourse = adminService.findCourseById(courseId);
+			 if (tempCourse != null && tempCourse.getCourseId() != null) {
+				 tempCourse.setGroupName(groupName);
+				 tempCourse.setCourseLogo(file.getBytes());
+				 Course course = adminService.saveCourse(tempCourse);
+				 if (course != null && course.getId() != null) {
+					List<CourseVO> courses = adminService.findCoursesByGroupName(groupName);
+					responseObject.setResult(courses);
+					responseObject.setStatus(Constants.SUCCESS);
+				 } else {
+					responseObject.setStatus(Constants.FAILURE);
+				 }
+			 }
+		} catch (Exception e) {
 			responseObject.setStatus(Constants.FAILURE);
 			throw new ApplicationException(e);
 		}

@@ -58,7 +58,7 @@ public class Course {
 
 	@ManyToMany(cascade= {CascadeType.MERGE})
     @JoinTable(name="COURSE_GROUP",joinColumns=@JoinColumn(name="COURSE_ID", referencedColumnName="COURSE_ID"),inverseJoinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUP_ID"))
-    public Set<Group> groups;
+    private Set<Group> groups;
 
 	public Integer getId() {
 		return id;

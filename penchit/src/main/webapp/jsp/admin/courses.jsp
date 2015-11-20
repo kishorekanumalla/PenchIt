@@ -32,12 +32,12 @@
         
     </div>
     
-    <form class="form-horizontal" name="groupsForm" style="margin-top:50px;margin-left:250px" role="form">
+    <form class="form-horizontal" name="groupsForm" style="margin-top:50px;margin-left:250px" role="form" enctype="multipart/form-data">
     <div class="form-group">
         <label for="groupName" class="col-sm-3 control-label">Course name</label>
         
         <div class="col-sm-4">
-          <input class="form-control" id="courseName" ng-model="courseName" ng-click="removeErrorMessage('courseNameError');" placeholder="Course Name">
+          <input class="form-control" id="courseName" ng-model="courseName" ng-click="clearlOGO();removeErrorMessage('courseNameError');" placeholder="Course Name">
         </div>
         <div style="padding-top:5px;color:red;display:none" id="courseNameError">Please enter the Course Name</div>
       </div> 
@@ -58,7 +58,7 @@
       <div class="form-group">
         <label for="group2" class="col-sm-3 control-label">Upload Logo</label>
         <div class="col-sm-5" id="imageUpload">
-          <input type="file" class="filestyle" id="logoId" onchange="angular.element(this).scope().uploadFile(this.files)"    ng-click="removeErrorMessage('courseLogoError');" data-placeholder="No file">
+          <input type="file" class="filestyle" id="logoId" name="file" onchange="uploadFile();"  ng-click="removeErrorMessage('courseLogoError');" data-placeholder="No file">
         </div>
         <div style="padding-top:5px;color:red;display:none" id="courseLogoError" >Please enter the Course Logo</div>
       </div>
