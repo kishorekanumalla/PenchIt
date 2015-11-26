@@ -44,4 +44,16 @@
         <put-attribute name="footer" value=""/>
         <put-attribute name="body" value="/jsp/admin/contact.jsp"/>
     </definition>
+    <definition name="clientsGalleryPage" extends="master.page">
+        <put-attribute name="header" value=""/>
+        <put-attribute name="footer" value=""/>
+        <put-attribute name="body" value="/jsp/admin/clientsGallery.jsp"/>
+    </definition>
+    <definition name="mainPage" extends="master.page">
+        <put-attribute name="header" value=""/>
+        <put-attribute name="footer" value=""/>
+        <put-attribute name="body" value="/jsp/admin/main.jsp"/>
+    </definition>
+    
+    
 </tiles-definitions>

@@ -20,7 +20,6 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
        });  
   
   $scope.selectGroup = function(group) {
-	  
 	  for (var i =0;i<5;i++) {
 		  var groupVar = "group" + (i+1);
 		  $scope[groupVar] = ""; 
@@ -44,6 +43,7 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
   $scope.removeAllErrorMessages = function() {
 	  $("#groupNameError").hide();
 	  $("#groupUniqueNameError").hide();
+	  $("#groupNameEmpty").hide();
 	  $("#groupError1").hide();
 	  $("#groupError2").hide();
 	  $("#groupError3").hide();
@@ -186,6 +186,24 @@ headerApp.controller('GroupsCtrl', function($scope, $http, $location, $uibModal)
 		resetValues();
 		
 	};
+	$scope.closeConfirmWindow = function() { 
+		$( "#confirmModalContent" ).dialog("destroy"); 
+	}
+	
+	$scope.deleteConfirmation = function() {
+		var groupName = $scope.selectedGroupLabel;
+		if ( groupName == "Please select a Group"){
+			$("#groupNameEmpty").show();
+			return false;
+		}
+		
+		$( "#confirmModalContent" ).dialog({
+			width:400,
+  	      resizable: false,
+  	      modal: true,
+  	    });
+  	  $("#confirmModalContent").parent().find(".ui-dialog-titlebar").hide();
+	}
 	
 	$scope.deleteGroup = function() {
 		var selectedGroupName = $scope.selectedGroupLabel;

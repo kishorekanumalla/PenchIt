@@ -3,8 +3,6 @@ package penchit.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -14,15 +12,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import penchit.Constants;
 import penchit.exception.ApplicationException;
+import penchit.model.ClientsGallery;
 import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
 import penchit.service.AdminService;
+import penchit.vo.ClientGalleryVO;
 import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
@@ -46,6 +45,18 @@ public class AdminController {
 	@RequestMapping(value = "/admin/contact.html",method = RequestMethod.GET)
     public ModelAndView getContactPage() {
         return new ModelAndView("adminContactPage");
+    }
+	@RequestMapping(value = "/admin/clients.html",method = RequestMethod.GET)
+    public ModelAndView getClientsPage() {
+		ModelAndView modelAndView  = 	new ModelAndView("clientsGalleryPage");
+		modelAndView.addObject("fromPage", "clients");
+        return modelAndView;
+    }
+	@RequestMapping(value = "/admin/gallery.html",method = RequestMethod.GET)
+    public ModelAndView getGalleryPage() {
+		ModelAndView modelAndView  = 	new ModelAndView("clientsGalleryPage");
+		modelAndView.addObject("fromPage", "gallery");
+        return modelAndView;
     }
 	@RequestMapping(value="/loadAll", method = RequestMethod.GET)  
 	public @ResponseBody ResponseObject getAllGroups() throws ApplicationException { 
@@ -263,4 +274,73 @@ public class AdminController {
 		}
         return responseObject;
     }
+	@RequestMapping(value = "/savePicture", method = RequestMethod.POST)
+    public @ResponseBody ResponseObject saveClientGalleryPicture(@RequestParam("type") String type,@RequestParam("file") MultipartFile file, @RequestParam("title") String fileName) throws ApplicationException, IOException {  
+		ResponseObject responseObject = new ResponseObject();
+		ClientsGallery clientsGallery = new ClientsGallery();
+		try {
+			clientsGallery.setName(fileName);
+			clientsGallery.setType(type);
+			clientsGallery.setPicture(file.getBytes());
+			ClientGalleryVO clientGalleryVO  = adminService.saveClientsGallery(clientsGallery);
+			if (clientGalleryVO != null) {
+				List<ClientGalleryVO> clientGalleryVOList = adminService.findAllClientGalleryPics(type);
+				responseObject.setResult(clientGalleryVOList);
+				responseObject.setStatus(Constants.SUCCESS);
+			}
+		} catch (Exception e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException(e);
+		}
+        return responseObject;
+    }
+	@RequestMapping(value="/loadClientGalleryPics", method = RequestMethod.GET)  
+	public @ResponseBody ResponseObject getClientGalleryPics(@RequestParam("type") String type) throws ApplicationException { 
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			List<ClientGalleryVO> clientGalleryVO = adminService.findAllClientGalleryPics(type);
+			if (!CollectionUtils.isEmpty(clientGalleryVO)) {
+				responseObject.setResult(clientGalleryVO);
+				responseObject.setStatus(Constants.SUCCESS);
+			}else {
+				responseObject.setStatus(Constants.EMPTY);
+			}
+			
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException();
+		}
+		return responseObject;  
+	}
+	@RequestMapping(value="/deleteClientGallery", method = RequestMethod.GET)  
+	public @ResponseBody ResponseObject deleteClientGalleryPics(@RequestParam("deleteImageId") int imageId, @RequestParam("type") String type) throws ApplicationException { 
+		ResponseObject responseObject = new ResponseObject();
+		try {
+				adminService.deleteClientGallery(imageId);
+				List<ClientGalleryVO> clientGalleryVO = adminService.findAllClientGalleryPics(type);
+				responseObject.setResult(clientGalleryVO);
+				responseObject.setStatus(Constants.SUCCESS);
+			
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException();
+		}
+		return responseObject;  
+	}
+	@RequestMapping(value = "/displayClientGalleryImage")
+    public @ResponseBody ResponseObject getClientImage(@RequestParam("imageId") int imageId) throws IOException, NumberFormatException, ApplicationException, InterruptedException {
+		ResponseObject responseObject = new ResponseObject();
+        ClientGalleryVO clientGalleryVO;
+		try {
+			clientGalleryVO = adminService.findPicById(imageId);
+			responseObject.setStatus(Constants.SUCCESS);
+			responseObject.setResult(clientGalleryVO);
+		} catch (ApplicationException e) {
+			responseObject.setStatus(Constants.FAILURE);
+			throw new ApplicationException(e);
+		}
+       
+        return responseObject;
+    }
+	
 }

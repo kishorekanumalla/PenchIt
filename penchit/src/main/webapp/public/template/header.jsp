@@ -29,10 +29,25 @@
 	          		<p><spring:message code="header.contact"/></p>
 	          </a>
          </li>
+          <li>
+	          <a title='<spring:message code="header.client"/>'  href="#/clients">
+	          		<p><spring:message code="header.client"/></p>
+	          </a>
+         </li>
+          <li>
+	          <a title='<spring:message code="header.gallery"/>'  href="#/gallery">
+	          		<p><spring:message code="header.gallery"/></p>
+	          </a>
+         </li>
          
-          <li><a href="about.html">Clients</a></li>
-          <li><a href="portfolio.html">Gallery</a></li>
+         <li>
+	          <a title='Main Screen'  href="#/mainScreen">
+	          		<p>Main Screen</p>
+	          </a>
+         </li>
+         
           <li><a href="contact.php">Reports</a></li>
+          
           <li><a href="<c:url value='/logout' />" title='<spring:message code="header.logout"/>'><spring:message code="header.logout"/></a></li>
         </ul>
       </nav>
@@ -41,5 +56,7 @@
      <script src="<c:url value='/resources/js/pages/groups.js' />"></script>
      <script src="<c:url value='/resources/js/pages/courses.js' />"></script>
      <script src="<c:url value='/resources/js/pages/contact.js' />"></script>
+     <script src="<c:url value='/resources/js/pages/clientsGallery.js' />"></script>
+     <script src="<c:url value='/resources/js/pages/mainScreen.js' />"></script>
     
     </html>

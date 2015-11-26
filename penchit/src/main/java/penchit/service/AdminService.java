@@ -10,12 +10,15 @@ import org.springframework.util.CollectionUtils;
 
 import penchit.AdminHelper;
 import penchit.exception.ApplicationException;
+import penchit.model.ClientsGallery;
 import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
+import penchit.repository.ClientsGalleryRepository;
 import penchit.repository.ContactInfoRepository;
 import penchit.repository.CourseRepository;
 import penchit.repository.GroupRepository;
+import penchit.vo.ClientGalleryVO;
 import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
@@ -29,6 +32,8 @@ public class AdminService {
 	public GroupRepository groupRepository;
 	@Autowired
 	public ContactInfoRepository contactInfoRepository;
+	@Autowired
+	public ClientsGalleryRepository clientsGalleryRepository;
 	
 	@Autowired
 	public CourseRepository courseRepository;
@@ -164,4 +169,43 @@ public class AdminService {
 	}
 	   return contactInfo;
 	}
+   public ClientGalleryVO saveClientsGallery(ClientsGallery clientsGallery) throws ApplicationException {
+	   ClientGalleryVO clientGalleryVO = new ClientGalleryVO();
+	try {
+		ClientsGallery  clientGalleryDTO = clientsGalleryRepository.save(clientsGallery);
+		clientGalleryVO = AdminHelper.convertClientGalleryDTOToVO(clientGalleryDTO);
+	} catch (Exception e) {
+		throw new ApplicationException();
+	}
+	   return clientGalleryVO;
+	}
+   public List<ClientGalleryVO> findAllClientGalleryPics(String type) throws ApplicationException {
+	   List<ClientGalleryVO> clientGalleryVO = null;
+	try {
+		List<ClientsGallery> clientsGallery  = (List<ClientsGallery>)clientsGalleryRepository.findByType(type);
+		clientGalleryVO = AdminHelper.convertClientsGalleryListDTOToVO(clientsGallery);
+	} catch (ApplicationException e) {
+		throw new ApplicationException();
+	}
+      return clientGalleryVO;
+   }
+   public void deleteClientGallery(Integer clientGalleryId) throws ApplicationException {
+		try {
+			clientsGalleryRepository.delete(clientGalleryId);
+		} catch (Exception e) {
+			throw new ApplicationException();
+		}
+	}
+   public ClientGalleryVO findPicById(Integer picId) throws ApplicationException {
+	   ClientGalleryVO clientGalleryVO = null;
+	try {
+		ClientsGallery clientsGallery  = (ClientsGallery)clientsGalleryRepository.findOne(picId);
+		if (clientsGallery != null) {
+			clientGalleryVO = AdminHelper.convertClientGalleryDTOToVO(clientsGallery);
+		}
+	} catch (Exception e) {
+		throw new ApplicationException(e);
+	}
+      return clientGalleryVO;
+   }
 }

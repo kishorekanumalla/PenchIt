@@ -17,7 +17,16 @@ headerApp.config(function($routeProvider){
 			controller: 'CoursesCtrl'  })
 		.when('/contact', { 
 			templateUrl: 'contact.html',
-			controller: 'ContactCtrl'  });
+			controller: 'ContactCtrl'  })
+		.when('/clients', { 
+			templateUrl: 'clients.html',
+			controller: 'ClientsGalleryCtrl'})
+		.when('/gallery', { 
+			templateUrl: 'gallery.html',
+			controller: 'ClientsGalleryCtrl'  })
+		.when('/mainScreen', { 
+			templateUrl: 'mainScreen.html',
+			controller: 'MainGalleryCtrl'  });
 });
 
 headerApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
@@ -30,6 +39,7 @@ headerApp.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
 	    $uibModalInstance.dismiss('cancel');
 	  };
 	});
+
 
 
 

@@ -27,7 +27,7 @@
         </ul>
         <button  ng-click="addNewCourse();removeAllErrorMessagesInCourse();"  class="btn btn-success" style="margin-left:50px;">Add New Course</button>
         <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseUniqueNameError">Course Name is already exisisting</div>
-        <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseNameEmptyError">Please select a course to delete</div>
+        <div style="padding:10px 0px 0px 20px;color:red;display:none" id="courseNameEmptyError">Please select a course</div>
         
         
     </div>
@@ -91,7 +91,7 @@
         <div class="col-sm-offset-2 col-sm-10">
           <button  ng-click="addCourse();" class="btn btn-success" id="addCourseId" style="display:none">Submit</button>
           <button  ng-click="addCourse();" class="btn btn-success" id="editCourseId" style="display:none">Edit</button>
-          <button  ng-click="deleteCourse();" style="margin-left:10px;" class="btn btn-success">Delete</button>
+          <button  ng-click="deleteConfirmation();" style="margin-left:10px;" class="btn btn-success">Delete</button>
         </div>
           
         </div>
@@ -109,5 +109,17 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="closeImageDialog();">OK</button>
+        </div>
+</div>
+<div id="confirmModalContent" style="display:none">
+        <div class="modal-header">
+            <h3 class="modal-title">DELETE</h3>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete ?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="closeConfirmWindow();">OK</button>
+			<button class="btn btn-primary" type="button" ng-click="closeConfirmWindow();deleteCourse();">Delete</button>
         </div>
 </div>

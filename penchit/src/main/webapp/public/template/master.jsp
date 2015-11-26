@@ -20,9 +20,12 @@
         <script src="<c:url value='/resources/js/bootstrap-filestyle.min.js' />"></script>
         <script src="<c:url value='/resources/js/common.js' />"></script>
       	<link href="<c:url value='/resources/css/bootstrap.min.css'  />" rel="stylesheet" id="bootStrapId"/>
+      	<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
       	<link href="<c:url value='/resources/css/font-awesome.min.css'/>" rel="stylesheet" type="text/css" />
       	<link href="<c:url value='/resources/css/summernote.css' />" rel="stylesheet">
         <script src="<c:url value='/resources/js/summernote.min.js' />"></script>
+        
+        
         
         
         
@@ -45,7 +48,7 @@
             <script src="<c:url value='/resources/js/bootstrap.min.ie.js' />"></script>
         <![endif]-->
         <!--[if !IE]><!-->
-            <script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
+            
         <!--<![endif]-->
 
         

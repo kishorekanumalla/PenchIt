@@ -9,8 +9,8 @@
         </li>
         </ul>
         	<button  ng-click="addNewGroup();removeAllErrorMessages();"  class="btn btn-success" style="margin-left:50px;">Add New Group</button>
-        	
          <div style="padding-top:5px;color:red;" id="groupUniqueNameError" ></div>
+         <div style="padding-top:5px;color:red;display:none" id="groupNameEmpty" >Please select a group</div>
     </div>
     
     <form class="form-horizontal" name="groupsForm" style="margin-top:50px;margin-left:250px" role="form">
@@ -61,10 +61,23 @@
         <div class="col-sm-offset-2 col-sm-10">
           <button  ng-click="addGroup();" class="btn btn-success" id="addGroupId" style="display:none">Submit</button>
           <button  ng-click="editGroup();" class="btn btn-success" id="editGroupId" style="display:none">Edit</button>
-          <button  ng-click="deleteGroup();" style="margin-left:10px;" class="btn btn-success">Delete</button>
+          <button  ng-click="deleteConfirmation();" style="margin-left:10px;" class="btn btn-success">Delete</button>
         </div>
           
         </div>
       </div>
 </form>
+
+<div id="confirmModalContent" style="display:none">
+        <div class="modal-header">
+            <h3 class="modal-title">DELETE</h3>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete ?
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="closeConfirmWindow();">OK</button>
+			<button class="btn btn-primary" type="button" ng-click="closeConfirmWindow();deleteGroup();">Delete</button>
+        </div>
+</div>
 

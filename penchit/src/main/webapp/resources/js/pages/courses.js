@@ -26,6 +26,7 @@ headerApp.controller('CoursesCtrl', function($scope, $http, $location, $uibModal
   $scope.courseItems = [];
   $scope.selectCourse = function(course) {
 	  $("#addCourseId").hide();
+	  $("#courseNameEmptyError").hide();
 	  $("#editCourseId").show();
 	  $scope.selectedCourseLabel = course.courseName;
 	  $("#courseId").val(course.courseId);
@@ -105,6 +106,7 @@ $scope.removeErrorMessage = function(errorId) {
 
 $scope.addCourse = function() {
 	if (isFormValid() && isCourseUnique()) {
+		$scope.removeAllErrorMessagesInCourse();
 	    submitDetails();
 	}
 };
@@ -286,6 +288,7 @@ $scope.removeAllErrorMessagesInCourse = function() {
 	$("#coursePriceError").hide();
 	$("#courseLogoError").hide();
 	$("courseUniqueNameError").hide();
+	$("#courseNameEmptyError").hide();
 }
 
 
@@ -331,6 +334,25 @@ function resetValues() {
 	$("#courseId").val("");
 	$("#courseLogoNameId").val("");
 	$("#logoId").filestyle('clear');
+}
+
+$scope.closeConfirmWindow = function() { 
+	$( "#confirmModalContent" ).dialog("destroy"); 
+}
+
+$scope.deleteConfirmation = function() {
+	var selectedCourseLabel = $scope.selectedCourseLabel;
+	if (selectedCourseLabel.length == 0 || selectedCourseLabel == "Please select a Course") {
+		$("#courseNameEmptyError").show();
+		return false;
+	}
+	
+	$( "#confirmModalContent" ).dialog({
+		width:400,
+	      resizable: false,
+	      modal: true,
+	    });
+	  $("#confirmModalContent").parent().find(".ui-dialog-titlebar").hide();
 }
 $scope.deleteCourse = function() {
 	var selectedCourseLabel = $scope.selectedCourseLabel;

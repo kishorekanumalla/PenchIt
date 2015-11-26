@@ -8,9 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import penchit.exception.ApplicationException;
+import penchit.model.ClientsGallery;
 import penchit.model.ContactInfo;
 import penchit.model.Course;
 import penchit.model.Group;
+import penchit.vo.ClientGalleryVO;
 import penchit.vo.ContactInfoVO;
 import penchit.vo.CourseVO;
 import penchit.vo.GroupVO;
@@ -153,4 +155,49 @@ public class AdminHelper {
 		}
 	return contactInfoVO;
 }
+	public static ClientGalleryVO convertClientGalleryDTOToVO(ClientsGallery clientsGallery) throws ApplicationException {
+		ClientGalleryVO clientGalleryVO = new ClientGalleryVO();
+		try {
+			clientGalleryVO.setClientGalleryId(clientsGallery.getId());
+			clientGalleryVO.setClientGalleryName(clientsGallery.getName());
+			clientGalleryVO.setClientGalleryPic(clientsGallery.getPicture());
+			clientGalleryVO.setClientGalleryType(clientsGallery.getType());
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return clientGalleryVO;
+	}
+	public static List<ClientGalleryVO> convertClientsGalleryListDTOToVO(List<ClientsGallery> clientsGalleryList) throws ApplicationException {
+		List<ClientGalleryVO> clientGalleryVOList = new ArrayList<ClientGalleryVO>();
+		try {
+			for (ClientsGallery clientsGallery : clientsGalleryList) {
+				ClientGalleryVO  clientGalleryVO = new ClientGalleryVO();
+				clientGalleryVO.setClientGalleryId(clientsGallery.getId());
+				clientGalleryVO.setClientGalleryName(clientsGallery.getName());
+				clientGalleryVO.setClientGalleryPic(clientsGallery.getPicture());
+				clientGalleryVO.setClientGalleryType(clientsGallery.getType());
+				clientGalleryVOList.add(clientGalleryVO);
+			}
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return clientGalleryVOList;
+	}
+	public static ClientsGallery convertClientGalleryVOToDTO(ClientGalleryVO clientsGalleryVO) throws ApplicationException {
+		ClientsGallery clientsGallery = new ClientsGallery();
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			clientsGallery.setId(clientsGalleryVO.getClientGalleryId());
+			clientsGallery.setName(clientsGalleryVO.getClientGalleryName());
+			clientsGallery.setPicture(clientsGalleryVO.getClientGalleryPic());
+			clientsGallery.setType(clientsGalleryVO.getClientGalleryType());
+			clientsGallery.setCreatedBy(user.getUsername());
+			clientsGallery.setCreatedDate(new Date());
+			clientsGallery.setUpdatedBy(user.getUsername());
+			clientsGallery.setUpdatedDate(new Date());
+		} catch (Exception e) {
+			throw new ApplicationException();	
+		}
+	return clientsGallery;
+	}
 }
