@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Group {
 	    private String name;
 	    @Column(name = "GROUP_DIVISIONS")
 	    private String divisions;
-	    @ManyToMany(cascade= {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE}, mappedBy="groups")
+	    @ManyToMany(cascade= {CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.EAGER, mappedBy="groups")
 	    private Set<Course> courses;
 	    @Column(name = "CREATED_BY")
 	    private String createdBy;

@@ -3,6 +3,7 @@ package penchit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -46,10 +47,15 @@ public class AdminHelper {
 				groupVO.setGroupName(cGroup.getName());
 				groupVO.setDivision(cGroup.getDivisions());
 				groupVO.setGroupId(cGroup.getId());
+//				/*Set<Course> courses = cGroup.getCourses();
+//				if (courses != null) {
+//					List<Course> courseList = new ArrayList<Course>(courses);
+//					groupVO.setCourses(convertCourseListDTOToVO(courseList));
+//				}*/
 				groupVOList.add(groupVO);
 			}
 		} catch (Exception e) {
-			throw new ApplicationException();	
+			throw new ApplicationException(e);	
 		}
 		return groupVOList;
 	}

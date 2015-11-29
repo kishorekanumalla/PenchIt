@@ -20,17 +20,15 @@ headerApp.controller('MainGalleryCtrl', function($scope, $http, $location, $uibM
 	
 
 	
-	/*var url =  _contextPath + "/loadMainPage";
+	var url =  _contextPath + "/loadMainPage";
 	$http.get(url).success(function(data, status) {
 		  if (data.status == "SUCCESS") {
-			  for(var i=0; i< data.result.length; i++) {
-		          $scope.groupItems.push(data.result[i]);
-				}
+			  
 		  } else if(data.status == "FAILURE"){
 	  		alert("Fetch Group failed")
 	  	}
 	
-	});*/
+	});
 });
 
 
