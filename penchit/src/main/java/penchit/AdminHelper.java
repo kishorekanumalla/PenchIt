@@ -47,11 +47,11 @@ public class AdminHelper {
 				groupVO.setGroupName(cGroup.getName());
 				groupVO.setDivision(cGroup.getDivisions());
 				groupVO.setGroupId(cGroup.getId());
-//				/*Set<Course> courses = cGroup.getCourses();
-//				if (courses != null) {
-//					List<Course> courseList = new ArrayList<Course>(courses);
-//					groupVO.setCourses(convertCourseListDTOToVO(courseList));
-//				}*/
+				Set<Course> courses = cGroup.getCourses();
+				if (courses != null) {
+					List<Course> courseList = new ArrayList<Course>(courses);
+					groupVO.setCourses(convertCourseListDTOToVO(courseList));
+				}
 				groupVOList.add(groupVO);
 			}
 		} catch (Exception e) {
