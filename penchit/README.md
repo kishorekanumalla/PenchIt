@@ -3,7 +3,7 @@ PenchIT
 
 
 
-Project of the post uaiContacts of the blog uaiHebert.com
+
 
 This project is a full web application with the following technologies:
 * SpringMVC - Spring MVC will handles the user requests
