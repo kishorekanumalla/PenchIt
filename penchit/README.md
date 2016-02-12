@@ -1,7 +1,7 @@
-uaicontacts
+PenchIT
 ===========
 
-### BuildStatus ---> [![Build Status](https://travis-ci.org/uaihebert/uaicontacts.svg?branch=master)](https://travis-ci.org/uaihebert/uaicontacts)
+
 
 Project of the post uaiContacts of the blog uaiHebert.com
 
@@ -14,6 +14,4 @@ This project is a full web application with the following technologies:
 * Twitter Bootstrap - A CSS library that will help us with a good looking style
 * JQuery - Combined with Twitter Bootstrap to give some animation to our HTML components
 
-The post in Portuguese can be found here: http://uaihebert.com/?p=1913
 
-The post in English can be found here: http://uaihebert.com/?p=2008
